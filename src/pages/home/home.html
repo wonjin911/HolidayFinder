@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>여행일 찾아보기</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!--form #myForm='ngForm' (ngSubmit)="Search()"-->
+  <ion-item>
+    사용 휴가일수
+    <button ion-button large color="light" item-right (click)="UpdateValue(1,-1);"><ion-icon name="arrow-back"></ion-icon></button>
+    <div item-right> {{ BREAK_DAY }} </div>
+    <button ion-button large color="light" item-right (click)="UpdateValue(1,1);"><ion-icon name="arrow-forward"></ion-icon></button>
+  </ion-item>
+  <ion-item>
+    최소 여행일수
+    <button ion-button large color="light" item-right (click)="UpdateValue(2,-1);"><ion-icon name="arrow-back"></ion-icon></button>
+    <div item-right> {{ MIN_TRAVEL_DAY }} </div>
+    <button ion-button large color="light" item-right (click)="UpdateValue(2,1);"><ion-icon name="arrow-forward"></ion-icon></button>
+  </ion-item>
+  <ion-item>
+    검색 시작년도
+    <button ion-button large color="light" item-right (click)="UpdateValue(3,-1);"><ion-icon name="arrow-back"></ion-icon></button>
+    <div item-right> {{ START_YEAR }} </div>
+    <button ion-button large color="light" item-right (click)="UpdateValue(3,1);"><ion-icon name="arrow-forward"></ion-icon></button>
+  </ion-item>
+
+  <button ion-button block (click)="Search();"><ion-icon ios="ios-search" md="md-search"> 검색하기</ion-icon></button>
+  <ion-list>
+    <ion-item *ngFor="let item of TRAVEL_DAY_LIST">
+      <ion-card-header>
+        {{ item.START_DATE }} ~ {{ item.END_DATE }}
+      </ion-card-header>
+
+      <ion-card-content>
+        {{ item.TRAVEL_DAY }}
+      </ion-card-content>
+    </ion-item>
+  </ion-list>
+</ion-content>
