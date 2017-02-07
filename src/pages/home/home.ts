@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 //import { NavController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
-import { TravelDay } from '../home/TravelDay';
+import { TravelDay } from './TravelDay';
+import { Holiday } from './Holiday';
 
 @Component({
   selector: 'page-home',
@@ -14,18 +15,31 @@ export class HomePage {
   BREAK_DAY: number;
   MIN_TRAVEL_DAY: number;
   START_YEAR: number;
-  HOLIDAY_LIST: string[];
+  HOLIDAY_LIST: Holiday[];
   TRAVEL_DAY_LIST: TravelDay[];
+  ORDER_BY: number;
 
   constructor(public toastCtrl: ToastController) {
   	this.BREAK_DAY = 2;
   	this.MIN_TRAVEL_DAY = 5;
   	this.START_YEAR = 2017;
   	this.TRAVEL_DAY_LIST = [];
+  	this.ORDER_BY = 1;
 
-  	this.HOLIDAY_LIST = ["2017-01-27","2017-01-30","2017-03-01","2017-05-03","2017-05-05","2017-06-06"
-  						,"2017-08-15","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-09"
-  						,"2017-12-20","2017-12-25"];
+  	this.HOLIDAY_LIST = [new Holiday("2017-01-27", "설날")
+  						,new Holiday("2017-01-30", "설날")
+  						,new Holiday("2017-03-01", "삼일절")
+  						,new Holiday("2017-05-01", "근로자의날")
+  						,new Holiday("2017-05-03", "석가탄신일")
+  						,new Holiday("2017-05-05", "어린이날")
+  						,new Holiday("2017-06-06", "현충일")
+  						,new Holiday("2017-08-15", "광복절")
+  						,new Holiday("2017-10-03", "추석")
+  						,new Holiday("2017-10-04", "추석")
+  						,new Holiday("2017-10-05", "추석")
+  						,new Holiday("2017-10-06", "추석")
+  						,new Holiday("2017-10-09", "추석")
+  						,new Holiday("2017-12-25", "성탄절")];
   }
 
   PresentToast(msg: string) {
@@ -79,28 +93,39 @@ export class HomePage {
 
     var straightNum: number;
     var breakLeft: number;
+    var breakList: string[];
     var checkStartDate: Date = new Date(startDate);
     var targetDate: Date;
+    var dayDetail: string;
+    var detailList: string[];
 
     do {
 
       straightNum = 0;
       breakLeft = this.BREAK_DAY;
+      breakList = [];
       targetDate = new Date(checkStartDate);
+      dayDetail = "";
+      detailList = [];
 
       do {
-      	if (this.IsHoliday(targetDate)){
+		dayDetail = this.IsHoliday(targetDate);      
+      	if (dayDetail != ""){
       	  straightNum += 1;
+      	  detailList.push(dayDetail);
       	  targetDate.setDate(targetDate.getDate() + 1);
       	}else if (breakLeft > 0){
       	  straightNum += 1;
       	  breakLeft -= 1;
+      	  breakList.push(targetDate.toISOString().substring(0,10))
       	  targetDate.setDate(targetDate.getDate() + 1);
       	}else{
       	  if (straightNum >= this.MIN_TRAVEL_DAY){
       	  	this.TRAVEL_DAY_LIST.push(new TravelDay(checkStartDate.toISOString().substring(0,10)
       	  							, targetDate.toISOString().substring(0,10)
-      	  							, straightNum));
+      	  							, straightNum
+      	  							, breakList
+      	  							, detailList));
       	  }
       	  break;
       	}
@@ -115,11 +140,17 @@ export class HomePage {
   }
 
   IsHoliday(targetDate:Date){
-  	if ((this.HOLIDAY_LIST.indexOf(targetDate.toISOString().substring(0,10)) > -1) || (targetDate.getDay() == 0 || targetDate.getDay() == 6)){
-  	  return true;
-  	}else{
-  	  return false;
+  	var targetDateStr:string = targetDate.toISOString().substring(0,10);
+  	if (targetDate.getDay() == 0 || targetDate.getDay() == 6){
+  		return "주말"
   	}
+
+  	for (let holiday of this.HOLIDAY_LIST){
+  		if (holiday.DATE == targetDateStr){
+  			return holiday.DETAIL;
+  		}
+  	}
+  	return "";
   }
 
 }
