@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 //import { NavController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { ItemSliding } from 'ionic-angular';
 
 import { TravelDay } from './TravelDay';
 import { Holiday } from './Holiday';
@@ -112,7 +113,7 @@ export class HomePage {
 		dayDetail = this.IsHoliday(targetDate);      
       	if (dayDetail != ""){
       	  straightNum += 1;
-      	  detailList.push(dayDetail);
+      	  if (detailList.indexOf(dayDetail) == -1) detailList.push(dayDetail);
       	  targetDate.setDate(targetDate.getDate() + 1);
       	}else if (breakLeft > 0){
       	  straightNum += 1;

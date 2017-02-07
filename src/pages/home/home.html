@@ -34,20 +34,28 @@
         <ion-option value=2 >긴여행일순</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item *ngFor="let item of TRAVEL_DAY_LIST">
-      <ion-card-header>
-        여행기간 : {{ item.START_DATE }} ~ {{ item.END_DATE }}
-      </ion-card-header>
+    <ion-item-sliding *ngFor="let item of TRAVEL_DAY_LIST; let i = index;">
+      <ion-item >
+        <ion-card-header>
+          여행기간 : {{ item.START_DATE }} ~ {{ item.END_DATE }}
+        </ion-card-header>
 
-      <ion-card-content>
-        여행일수 : {{ item.TRAVEL_DAY }}
-      </ion-card-content>
-      <ion-card-content>
-        휴가일 : {{ item.BREAK_LIST }}
-      </ion-card-content>
-      <ion-card-content>
-        공휴일 : {{ item.DETAIL_LIST }}
-      </ion-card-content>
-    </ion-item>
+        <ion-card-content>
+          여행일수 : {{ item.TRAVEL_DAY }}
+        </ion-card-content>
+        <ion-card-content>
+          휴가일 : {{ item.BREAK_LIST }}
+        </ion-card-content>
+        <ion-avatar item-left>
+          공휴일 : {{ item.DETAIL_LIST }}
+        </ion-avatar>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          리스트에서 삭제
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
