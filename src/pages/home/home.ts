@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 //import { NavController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-import { ItemSliding } from 'ionic-angular';
 
 import { TravelDay } from './TravelDay';
 import { Holiday } from './Holiday';
@@ -152,6 +151,22 @@ export class HomePage {
   		}
   	}
   	return "";
+  }
+
+  ItemDelete(idx:number){
+  	this.TRAVEL_DAY_LIST.splice(idx,1);
+  }
+
+  ItemSorting(){
+  	if(this.ORDER_BY == 1){
+  		this.TRAVEL_DAY_LIST.sort((a,b)=>this.Datestring2Number(a.START_DATE)-this.Datestring2Number(b.START_DATE));
+  	} else if (this.ORDER_BY == 2){
+  		this.TRAVEL_DAY_LIST.sort((a,b)=>b.TRAVEL_DAY-a.TRAVEL_DAY);
+  	}
+  }
+  
+  Datestring2Number(ds:string){
+  	return Number(new Date(ds));
   }
 
 }

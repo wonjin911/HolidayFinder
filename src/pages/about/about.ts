@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
-import { CalendarEvent } from 'angular-calendar';
 
 @Component({
   selector: 'page-about',

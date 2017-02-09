@@ -5,7 +5,6 @@
 </ion-header>
 
 <ion-content padding>
-  <!--form #myForm='ngForm' (ngSubmit)="Search()"-->
   <ion-item>
     사용 휴가일수
     <button ion-button large color="light" item-right (click)="UpdateValue(1,-1);"><ion-icon name="remove"></ion-icon></button>
@@ -29,7 +28,7 @@
   <ion-list>
     <ion-item *ngIf="TRAVEL_DAY_LIST.length > 0">
       <ion-label>정렬기준</ion-label>
-      <ion-select [(ngModel)]="ORDER_BY" multiple="false">
+      <ion-select [(ngModel)]="ORDER_BY" multiple="false" (ionChange)="ItemSorting(value);">
         <ion-option value=1 >가까운날짜순</ion-option>
         <ion-option value=2 >긴여행일순</ion-option>
       </ion-select>
@@ -46,12 +45,13 @@
         <ion-card-content>
           휴가일 : {{ item.BREAK_LIST }}
         </ion-card-content>
+
         <ion-avatar item-left>
           공휴일 : {{ item.DETAIL_LIST }}
         </ion-avatar>
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="danger">
+        <button ion-button color="danger" (click)="ItemDelete(i);">
           <ion-icon name="trash"></ion-icon>
           리스트에서 삭제
         </button>
