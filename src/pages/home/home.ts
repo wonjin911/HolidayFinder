@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 //import { NavController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 
 import { TravelDay } from './TravelDay';
 import { Holiday } from './Holiday';
@@ -19,7 +20,7 @@ export class HomePage {
   TRAVEL_DAY_LIST: TravelDay[];
   ORDER_BY: number;
 
-  constructor(public toastCtrl: ToastController) {
+  constructor(public toastCtrl: ToastController, public alertCtrl: AlertController) {
   	this.BREAK_DAY = 2;
   	this.MIN_TRAVEL_DAY = 5;
   	this.START_YEAR = 2017;
@@ -52,19 +53,23 @@ export class HomePage {
 
   UpdateValue(target:number, value:number){
   	if (target == 1){
-  	  if (this.BREAK_DAY + value >= 0 || this.BREAK_DAY + value <= 15){
+  	  if (this.BREAK_DAY + value >= 0 && this.BREAK_DAY + value <= 15){
   	  	this.BREAK_DAY += value;
   	  }else{
   	    this.PresentToast("휴가 일수는 0과 15 사이여야 합니다.")
   	  }
   	}else if (target == 2){
-  	  if (this.MIN_TRAVEL_DAY + value >= 3 || this.MIN_TRAVEL_DAY + value <= 20){
+  	  if (this.MIN_TRAVEL_DAY + value >= 3 && this.MIN_TRAVEL_DAY + value <= 20){
   	    this.MIN_TRAVEL_DAY += value;
   	  }else{
   	  	this.PresentToast("최소 여행일수는 3과 20 사이여야 합니다.")
   	  }
   	}else if (target == 3){
-  	  this.START_YEAR += value;
+  	  if (this.START_YEAR + value >= 2017){
+  	  	this.START_YEAR += value;
+  	  }else{
+  	    this.PresentToast("2017년 이후의 결과만 검색됩니다.")
+  	  }
   	}
   }
 
@@ -151,6 +156,16 @@ export class HomePage {
   		}
   	}
   	return "";
+  }
+
+  ItemDetail(idx:number){
+  	this.TRAVEL_DAY_LIST[idx];
+  	let alert = this.alertCtrl.create({
+      title: '상세정보',
+      subTitle: '여행다녀오세요~',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   ItemDelete(idx:number){

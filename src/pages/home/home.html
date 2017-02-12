@@ -34,7 +34,7 @@
       </ion-select>
     </ion-item>
     <ion-item-sliding *ngFor="let item of TRAVEL_DAY_LIST; let i = index;">
-      <ion-item >
+      <ion-item (click)="ItemDetail(i);">
         <ion-card-header>
           여행기간 : {{ item.START_DATE }} ~ {{ item.END_DATE }}
         </ion-card-header>
