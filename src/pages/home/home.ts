@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 //import { NavController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 import { TravelDay } from './TravelDay';
 import { Holiday } from './Holiday';
@@ -20,27 +21,91 @@ export class HomePage {
   TRAVEL_DAY_LIST: TravelDay[];
   ORDER_BY: number;
 
-  constructor(public toastCtrl: ToastController, public alertCtrl: AlertController) {
+  constructor(public toastCtrl: ToastController, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
   	this.BREAK_DAY = 2;
   	this.MIN_TRAVEL_DAY = 5;
   	this.START_YEAR = 2017;
   	this.TRAVEL_DAY_LIST = [];
   	this.ORDER_BY = 1;
 
-  	this.HOLIDAY_LIST = [new Holiday("2017-01-27", "설날")
-  						,new Holiday("2017-01-30", "설날")
+  	this.HOLIDAY_LIST = [new Holiday("2017-01-01", "신정")
+  						,new Holiday("2017-01-27", "설날")
+  						,new Holiday("2017-01-30", "설날대체휴일")
   						,new Holiday("2017-03-01", "삼일절")
   						,new Holiday("2017-05-01", "근로자의날")
   						,new Holiday("2017-05-03", "석가탄신일")
   						,new Holiday("2017-05-05", "어린이날")
   						,new Holiday("2017-06-06", "현충일")
   						,new Holiday("2017-08-15", "광복절")
-  						,new Holiday("2017-10-03", "추석")
+  						,new Holiday("2017-10-03", "개천절")
   						,new Holiday("2017-10-04", "추석")
   						,new Holiday("2017-10-05", "추석")
-  						,new Holiday("2017-10-06", "추석")
-  						,new Holiday("2017-10-09", "추석")
-  						,new Holiday("2017-12-25", "성탄절")];
+  						,new Holiday("2017-10-06", "추석대체휴일")
+  						,new Holiday("2017-10-09", "한글날")
+  						,new Holiday("2017-12-25", "성탄절")
+  						,new Holiday("2018-01-01", "신정")
+  						,new Holiday("2018-02-15", "설날")
+  						,new Holiday("2018-02-16", "설날")
+  						,new Holiday("2018-02-17", "설날")
+  						,new Holiday("2018-03-01", "삼일절")
+  						,new Holiday("2018-05-01", "근로자의날")
+  						,new Holiday("2018-05-07", "어린이날대체휴일")
+  						,new Holiday("2018-05-22", "석가탄신일")
+						,new Holiday("2018-06-06", "현충일")
+						,new Holiday("2018-08-15", "광복절")
+						,new Holiday("2018-09-24", "추석")
+						,new Holiday("2018-09-25", "추석")
+						,new Holiday("2018-09-26", "추석대체휴일")
+						,new Holiday("2018-10-03", "개천절")
+						,new Holiday("2018-10-09", "한글날")
+						,new Holiday("2018-12-25", "성탄절")
+						,new Holiday("2019-01-01", "신정")
+						,new Holiday("2019-02-04", "설날")
+						,new Holiday("2019-02-05", "설날")
+						,new Holiday("2019-02-06", "설날")
+						,new Holiday("2019-03-01", "삼일절")
+						,new Holiday("2019-05-01", "근로자의날")
+						,new Holiday("2019-05-06", "어린이날대체휴일")
+						//석가탄실일 일요일
+						,new Holiday("2019-06-06", "현충일")
+						,new Holiday("2019-08-15", "광복절")
+						,new Holiday("2019-09-12", "추석")
+						,new Holiday("2019-09-13", "추석")
+						,new Holiday("2019-10-03", "개천절")
+						,new Holiday("2019-10-09", "한글날")
+						,new Holiday("2019-12-25", "성탄절")
+						,new Holiday("2020-01-01", "신정")
+						,new Holiday("2020-01-24", "설날")
+						,new Holiday("2020-01-25", "설날")
+						,new Holiday("2020-01-26", "설날")
+						,new Holiday("2020-01-27", "설날대체휴일")
+						,new Holiday("2020-04-30", "석가탄신일")
+						,new Holiday("2020-05-01", "근로자의날")
+						,new Holiday("2020-05-05", "어린이날")
+						,new Holiday("2020-09-30", "추석")
+						,new Holiday("2020-10-01", "추석")
+						,new Holiday("2020-10-02", "추석")
+						,new Holiday("2020-10-09", "한글날")
+						,new Holiday("2020-12-25", "성탄절")
+						,new Holiday("2021-01-01", "신정")
+						,new Holiday("2021-02-11", "설날")
+						,new Holiday("2021-02-12", "설날")
+						,new Holiday("2021-03-01", "삼일절")
+						,new Holiday("2021-05-05", "어린이날")
+						,new Holiday("2021-05-19", "석가탄신일")
+						,new Holiday("2021-09-20", "추석")
+						,new Holiday("2021-09-21", "추석")
+						,new Holiday("2021-09-22", "추석")
+						,new Holiday("2022-01-31", "설날")
+						,new Holiday("2022-02-01", "설날")
+						,new Holiday("2022-02-02", "설날")
+						,new Holiday("2022-03-01", "삼일절")
+						,new Holiday("2022-05-05", "어린이날")
+						,new Holiday("2022-06-06", "현충일")
+						,new Holiday("2022-08-15", "광복절")
+						,new Holiday("2022-09-09", "추석")
+						,new Holiday("2022-09-12", "추석대체휴일")
+						,new Holiday("2022-10-03", "개천절")];
   }
 
   PresentToast(msg: string) {
@@ -65,10 +130,10 @@ export class HomePage {
   	  	this.PresentToast("최소 여행일수는 3과 20 사이여야 합니다.")
   	  }
   	}else if (target == 3){
-  	  if (this.START_YEAR + value >= 2017){
+  	  if (this.START_YEAR + value >= 2017 && this.START_YEAR + value <= 2022){
   	  	this.START_YEAR += value;
   	  }else{
-  	    this.PresentToast("2017년 이후의 결과만 검색됩니다.")
+  	  	this.PresentToast("2017년~2022년 결과만 검색됩니다.");
   	  }
   	}
   }
@@ -86,8 +151,17 @@ export class HomePage {
   	  this.PresentToast("최소여행일수는 사용할 휴일수보다 3일이상 많아야합니다.");
   	  return;
   	}
-  	
-  	this.FindStart(new Date(String(this.START_YEAR).concat("-01-01")), new Date(String(this.START_YEAR).concat("-12-31")));
+
+  	let loading = this.loadingCtrl.create({
+      content: '검색 중입니다...'
+    });
+
+  	loading.present().then(() => {
+  		this.FindStart(new Date(String(this.START_YEAR).concat("-01-01")), new Date(String(this.START_YEAR).concat("-12-31")));
+  	})
+
+  	loading.dismiss();
+
   	console.log(this.TRAVEL_DAY_LIST);
   }
 
@@ -114,8 +188,11 @@ export class HomePage {
       detailList = [];
 
       do {
-		dayDetail = this.IsHoliday(targetDate);      
-      	if (dayDetail != ""){
+		dayDetail = this.IsHoliday(targetDate);
+		if (this.IsWeekend(targetDate)){
+		  straightNum += 1;
+		  targetDate.setDate(targetDate.getDate() + 1);
+		}else if (dayDetail != ""){
       	  straightNum += 1;
       	  if (detailList.indexOf(dayDetail) == -1) detailList.push(dayDetail);
       	  targetDate.setDate(targetDate.getDate() + 1);
@@ -144,11 +221,22 @@ export class HomePage {
     }
   }
 
+  IsWeekend(targetDate:Date){
+  	//var targetDateStr:string = targetDate.toISOString().substring(0,10);
+  	if (targetDate.getDay() == 0){
+  		return "일요일";
+  	} else if (targetDate.getDay() == 6){
+  		return "토요일";
+  	} else{
+  		return "";
+  	}
+  }
+
   IsHoliday(targetDate:Date){
   	var targetDateStr:string = targetDate.toISOString().substring(0,10);
-  	if (targetDate.getDay() == 0 || targetDate.getDay() == 6){
-  		return "주말"
-  	}
+  	//if (targetDate.getDay() == 0 || targetDate.getDay() == 6){
+  	//	return "주말"
+  	//}
 
   	for (let holiday of this.HOLIDAY_LIST){
   		if (holiday.DATE == targetDateStr){
@@ -159,10 +247,11 @@ export class HomePage {
   }
 
   ItemDetail(idx:number){
-  	this.TRAVEL_DAY_LIST[idx];
+  	console.log(this.TRAVEL_DAY_LIST[idx]);
+  	console.log(this.TRAVEL_DAY_LIST[idx].BREAK_LIST);
   	let alert = this.alertCtrl.create({
       title: '상세정보',
-      subTitle: '여행다녀오세요~',
+      message: '여행다녀오세요~',
       buttons: ['OK']
     });
     alert.present();
@@ -183,5 +272,6 @@ export class HomePage {
   Datestring2Number(ds:string){
   	return Number(new Date(ds));
   }
+
 
 }

@@ -1,54 +1,46 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>여행일 검색하기</ion-title>
+    <ion-title>여행 언제가지?</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-item>
+<ion-content padding class="masters">
+  <ion-item class="menus">
     사용 휴가일수
-    <button ion-button large color="light" item-right (click)="UpdateValue(1,-1);"><ion-icon name="remove"></ion-icon></button>
+    <button ion-button color="light" item-right (click)="UpdateValue(1,-1);"><ion-icon name="remove"></ion-icon></button>
     <div item-right> {{ BREAK_DAY }} </div>
-    <button ion-button large color="light" item-right (click)="UpdateValue(1,1);"><ion-icon name="add"></ion-icon></button>
+    <button ion-button color="light" item-right (click)="UpdateValue(1,1);"><ion-icon name="add"></ion-icon></button>
   </ion-item>
-  <ion-item>
+  <ion-item class="menus">
     최소 여행일수
-    <button ion-button large color="light" item-right (click)="UpdateValue(2,-1);"><ion-icon name="remove"></ion-icon></button>
+    <button ion-button color="light" item-right (click)="UpdateValue(2,-1);"><ion-icon name="remove"></ion-icon></button>
     <div item-right> {{ MIN_TRAVEL_DAY }} </div>
-    <button ion-button large color="light" item-right (click)="UpdateValue(2,1);"><ion-icon name="add"></ion-icon></button>
+    <button ion-button color="light" item-right (click)="UpdateValue(2,1);"><ion-icon name="add"></ion-icon></button>
   </ion-item>
-  <ion-item>
-    검색 시작년도
-    <button ion-button large color="light" item-right (click)="UpdateValue(3,-1);"><ion-icon name="remove"></ion-icon></button>
+  <ion-item class="menus">
+    검색 연도
+    <button ion-button color="light" item-right (click)="UpdateValue(3,-1);"><ion-icon name="remove"></ion-icon></button>
     <div item-right> {{ START_YEAR }} </div>
-    <button ion-button large color="light" item-right (click)="UpdateValue(3,1);"><ion-icon name="add"></ion-icon></button>
+    <button ion-button color="light" item-right (click)="UpdateValue(3,1);"><ion-icon name="add"></ion-icon></button>
   </ion-item>
 
-  <button ion-button block (click)="Search();"><ion-icon name="search"> 검색하기</ion-icon></button>
+  <button ion-button block class="buttons" (click)="Search();"><ion-icon name="search"> 검색하기</ion-icon></button>
   <ion-list>
-    <ion-item *ngIf="TRAVEL_DAY_LIST.length > 0">
+    <ion-item class="filters" *ngIf="TRAVEL_DAY_LIST.length > 0">
       <ion-label>정렬기준</ion-label>
       <ion-select [(ngModel)]="ORDER_BY" multiple="false" (ionChange)="ItemSorting(value);">
-        <ion-option value=1 >가까운날짜순</ion-option>
-        <ion-option value=2 >긴여행일순</ion-option>
+        <ion-option value=1 >시간 순</ion-option>
+        <ion-option value=2 >긴 여행일 순</ion-option>
       </ion-select>
     </ion-item>
     <ion-item-sliding *ngFor="let item of TRAVEL_DAY_LIST; let i = index;">
-      <ion-item (click)="ItemDetail(i);">
-        <ion-card-header>
+      <ion-item class="lists" (click)="ItemDetail(i);">
+        <h3>
           여행기간 : {{ item.START_DATE }} ~ {{ item.END_DATE }}
-        </ion-card-header>
-
-        <ion-card-content>
-          여행일수 : {{ item.TRAVEL_DAY }}
-        </ion-card-content>
-        <ion-card-content>
-          휴가일 : {{ item.BREAK_LIST }}
-        </ion-card-content>
-
-        <ion-avatar item-left>
-          공휴일 : {{ item.DETAIL_LIST }}
-        </ion-avatar>
+        </h3>
+        <p>여행일수 : {{ item.TRAVEL_DAY }}</p>
+        <p>휴가일 : {{ item.BREAK_LIST }}</p>
+        <p>공휴일 : {{ item.DETAIL_LIST }}</p>
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="danger" (click)="ItemDelete(i);">
