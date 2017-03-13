@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 
-//import { NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 
 import { TravelDay } from './TravelDay';
 import { Holiday } from './Holiday';
+import { CalendarAlert } from '../calendar-alert/contact';
 
 @Component({
   selector: 'page-home',
@@ -21,7 +22,7 @@ export class HomePage {
   TRAVEL_DAY_LIST: TravelDay[];
   ORDER_BY: number;
 
-  constructor(public toastCtrl: ToastController, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public toastCtrl: ToastController, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public navCtrl: NavController) {
   	this.BREAK_DAY = 2;
   	this.MIN_TRAVEL_DAY = 5;
   	this.START_YEAR = 2017;
@@ -249,12 +250,15 @@ export class HomePage {
   ItemDetail(idx:number){
   	console.log(this.TRAVEL_DAY_LIST[idx]);
   	console.log(this.TRAVEL_DAY_LIST[idx].BREAK_LIST);
-  	let alert = this.alertCtrl.create({
+  	
+  	/*let alert = this.alertCtrl.create({
       title: '상세정보',
       message: '여행다녀오세요~',
       buttons: ['OK']
     });
     alert.present();
+    */
+    this.navCtrl.push(CalendarAlert, {travel_day: this.TRAVEL_DAY_LIST[idx]});
   }
 
   ItemDelete(idx:number){

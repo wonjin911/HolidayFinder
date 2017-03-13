@@ -2,18 +2,20 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+import { CalendarAlert } from '../pages/calendar-alert/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { CalendarModule } from 'angular-calendar';
+import { IonCalendarComponent } from '../components/ion-calendar/ion-calendar';
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
-    ContactPage,
+    CalendarAlert,
     HomePage,
-    TabsPage
+    TabsPage,
+    IonCalendarComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -23,7 +25,7 @@ import { CalendarModule } from 'angular-calendar';
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
+    CalendarAlert,
     HomePage,
     TabsPage
   ],
