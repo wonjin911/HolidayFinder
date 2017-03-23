@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { Event } from './Event';
 import { TravelDay } from '../home/TravelDay';
+import { Holiday } from '../home/Holiday';
 
 @Component({
   selector: 'page-calendar-alert',
@@ -20,14 +21,11 @@ export class CalendarAlert {
 	this.travel_day = this.navParams.get('travel_day');
 	console.log(this.travel_day);
 
-	//BREAK_LIST: string[];
-  	//DETAIL_LIST: string[];
-
   	this.myDate = new Date(this.travel_day.START_DATE);
 
   	this.Events = [];
-  	for (let breakday of this.travel_day.BREAK_LIST){
-  		var event = new Event(new Date(breakday), new Date(breakday), "휴가사용");
+  	for (let holiday of this.travel_day.HOLIDAY_LIST){
+  		var event = new Event(new Date(holiday.DATE), new Date(holiday.DATE), holiday.DETAIL);
 		this.Events.push(event);
   	}
   }

@@ -176,8 +176,10 @@ export class HomePage {
     var breakList: string[];
     var checkStartDate: Date = new Date(startDate);
     var targetDate: Date;
+    var lastDate: Date;
     var dayDetail: string;
     var detailList: string[];
+    var holidayList: Holiday[];
 
     do {
 
@@ -185,30 +187,41 @@ export class HomePage {
       breakLeft = this.BREAK_DAY;
       breakList = [];
       targetDate = new Date(checkStartDate);
+      lastDate = new Date(checkStartDate);
       dayDetail = "";
       detailList = [];
+      holidayList = [];
 
       do {
-		dayDetail = this.IsHoliday(targetDate);
-		if (this.IsWeekend(targetDate)){
-		  straightNum += 1;
-		  targetDate.setDate(targetDate.getDate() + 1);
-		}else if (dayDetail != ""){
+    		dayDetail = this.IsHoliday(targetDate);
+    		if (this.IsWeekend(targetDate)){
+    		  straightNum += 1;
+          holidayList.push(new Holiday(targetDate.toISOString().substring(0,10), "주말"));
+    		  targetDate.setDate(targetDate.getDate() + 1);
+    		}else if (dayDetail != ""){
       	  straightNum += 1;
       	  if (detailList.indexOf(dayDetail) == -1) detailList.push(dayDetail);
+          holidayList.push(new Holiday(targetDate.toISOString().substring(0,10), dayDetail));
       	  targetDate.setDate(targetDate.getDate() + 1);
       	}else if (breakLeft > 0){
       	  straightNum += 1;
       	  breakLeft -= 1;
-      	  breakList.push(targetDate.toISOString().substring(0,10))
+      	  breakList.push(targetDate.toISOString().substring(0,10));
+          holidayList.push(new Holiday(targetDate.toISOString().substring(0,10), "휴가사용"));
       	  targetDate.setDate(targetDate.getDate() + 1);
       	}else{
       	  if (straightNum >= this.MIN_TRAVEL_DAY){
-      	  	this.TRAVEL_DAY_LIST.push(new TravelDay(checkStartDate.toISOString().substring(0,10)
-      	  							, targetDate.toISOString().substring(0,10)
-      	  							, straightNum
-      	  							, breakList
-      	  							, detailList));
+            lastDate.setDate(checkStartDate.getDate() + straightNum - 1);
+      	  	this.TRAVEL_DAY_LIST.push(
+                new TravelDay(
+                    checkStartDate.toISOString().substring(0,10)
+  	  							, lastDate.toISOString().substring(0,10)
+  	  							, straightNum
+  	  							, breakList
+  	  							, detailList
+                    , holidayList
+                )
+            );
       	  }
       	  break;
       	}
