@@ -82,7 +82,7 @@ export class IonCalendarComponent {
 
     if(this.events)
       this.events.forEach((item, index) => {
-        if(item.starts.getTime() >= firstDayOfTheMonth.getTime() && item.ends.getTime() < lastDayOfTheMonth.getTime()) {
+        if(item.starts.getTime() >= firstDayOfTheMonth.getTime() && item.ends.getTime() < lastDayOfTheMonth.getTime() + 24*60*60*1000) {
           if(document.getElementById("calendar-day-" + item.starts.getDate()))
             document.getElementById("calendar-day-" + item.starts.getDate()).classList.add('hasEvents');
         }
